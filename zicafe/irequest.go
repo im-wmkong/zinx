@@ -1,0 +1,6 @@
+package zicafe
+
+type IRequest interface {
+	GetConnection() IConnection
+	GetData() []byte
+}
