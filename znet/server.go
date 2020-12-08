@@ -11,7 +11,7 @@ type Server struct {
 	IPVersion string
 	IP        string
 	Port      int
-	Router zicafe.IRouter
+	Router    zicafe.IRouter
 }
 
 func (s *Server) Start() {
@@ -59,7 +59,7 @@ func (s *Server) Serve() {
 	select {}
 }
 
-func (s *Server) AddRouter(router zicafe.IRouter)  {
+func (s *Server) AddRouter(router zicafe.IRouter) {
 	s.Router = router
 }
 
@@ -69,6 +69,6 @@ func NewServer(name string) zicafe.IServer {
 		IPVersion: "tcp4",
 		IP:        "0.0.0.0",
 		Port:      8999,
-		Router: nil,
+		Router:    nil,
 	}
 }

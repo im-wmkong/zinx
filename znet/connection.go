@@ -7,20 +7,20 @@ import (
 )
 
 type Connection struct {
-	Conn      *net.TCPConn
-	ConnID    uint32
-	isClosed  bool
-	Router zicafe.IRouter
-	ExitChan  chan bool
+	Conn     *net.TCPConn
+	ConnID   uint32
+	isClosed bool
+	Router   zicafe.IRouter
+	ExitChan chan bool
 }
 
 func NewConnection(conn *net.TCPConn, connID uint32, router zicafe.IRouter) *Connection {
 	return &Connection{
-		Conn:      conn,
-		ConnID:    connID,
-		isClosed:  false,
-		Router: router,
-		ExitChan:  make(chan bool, 1),
+		Conn:     conn,
+		ConnID:   connID,
+		isClosed: false,
+		Router:   router,
+		ExitChan: make(chan bool, 1),
 	}
 }
 
@@ -45,7 +45,6 @@ func (c *Connection) StartReader() {
 			c.Router.Handle(req)
 			c.Router.PostHandle(req)
 		}(&req)
-
 
 	}
 }
