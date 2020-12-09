@@ -3,6 +3,7 @@ package znet
 import (
 	"fmt"
 	"net"
+	"zinx/utils"
 	"zinx/zicafe"
 )
 
@@ -65,10 +66,10 @@ func (s *Server) AddRouter(router zicafe.IRouter) {
 
 func NewServer(name string) zicafe.IServer {
 	return &Server{
-		Name:      name,
+		Name:      utils.GlobalObject.Name,
 		IPVersion: "tcp4",
-		IP:        "0.0.0.0",
-		Port:      8999,
+		IP:        utils.GlobalObject.Host,
+		Port:      utils.GlobalObject.TcpPort,
 		Router:    nil,
 	}
 }
