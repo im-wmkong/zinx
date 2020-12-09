@@ -7,18 +7,18 @@ import (
 )
 
 type GlobalObj struct {
-	TcpServer zicafe.IServer
-	Host string
-	TcpPort int
-	Name string
-	Version string
-	MaxConn int
+	TcpServer      zicafe.IServer
+	Host           string
+	TcpPort        int
+	Name           string
+	Version        string
+	MaxConn        int
 	MaxPackageSize uint32
 }
 
 var GlobalObject *GlobalObj
 
-func init()  {
+func init() {
 	GlobalObject = &GlobalObj{
 		Host:           "0.0.0.0",
 		TcpPort:        8999,
@@ -31,8 +31,8 @@ func init()  {
 	GlobalObject.Reload()
 }
 
-func (o *GlobalObj) Reload()  {
-	data, err :=  ioutil.ReadFile("conf/zinx.json")
+func (o *GlobalObj) Reload() {
+	data, err := ioutil.ReadFile("conf/zinx.json")
 	if err != nil {
 		panic(err)
 	}
