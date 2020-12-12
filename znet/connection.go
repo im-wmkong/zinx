@@ -46,7 +46,7 @@ func (c *Connection) StartReader() {
 		}
 
 		var data []byte
-		if msg.GetMsgLen() >0  {
+		if msg.GetMsgLen() > 0 {
 			data = make([]byte, msg.GetMsgLen())
 			if _, err := io.ReadFull(c.GetTCPConnection(), data); err != nil {
 				fmt.Printf("Connection read error, ConnID: %d, error: %s\n", c.ConnID, err)
@@ -57,7 +57,7 @@ func (c *Connection) StartReader() {
 
 		req := Request{
 			conn: c,
-			msg: msg,
+			msg:  msg,
 		}
 		go func(request zicafe.IRequest) {
 			c.Router.PreHandle(req)
@@ -100,13 +100,13 @@ func (c *Connection) SendMsg(msgId uint32, data []byte) error {
 	}
 
 	dp := NewDataPack()
-	binaryMsg, err := dp.Pack(NewMessage(msgId,data))
+	binaryMsg, err := dp.Pack(NewMessage(msgId, data))
 	if err != nil {
 		fmt.Printf("Pack error, msg id: %d\n", msgId)
 		return err
 	}
 
-	if _,err := c.Conn.Write(binaryMsg); err!=nil{
+	if _, err := c.Conn.Write(binaryMsg); err != nil {
 		fmt.Printf("Connection wirte error, msg id: %d, error: %s\n", msgId, err)
 		return err
 	}

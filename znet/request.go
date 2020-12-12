@@ -4,7 +4,7 @@ import "zinx/zicafe"
 
 type Request struct {
 	conn zicafe.IConnection
-	msg zicafe.IMessage
+	msg  zicafe.IMessage
 }
 
 func (r Request) GetConnection() zicafe.IConnection {
