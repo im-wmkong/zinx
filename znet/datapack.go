@@ -31,7 +31,7 @@ func (dp *DataPack) Pack(msg zicafe.IMessage) ([]byte, error) {
 		return nil, err
 	}
 
-	return buf.Bytes(), nil
+	return buffer.Bytes(), nil
 }
 func (dp *DataPack) Unpack(data []byte) (zicafe.IMessage, error) {
 	reader := bytes.NewReader(data)
