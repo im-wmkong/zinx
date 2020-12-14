@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Client start ...")
+	fmt.Println("Client 1 start ...")
 	time.Sleep(1 * time.Second)
 	conn, err := net.Dial("tcp", "127.0.0.1:8999")
 	if err != nil {
@@ -18,7 +18,7 @@ func main() {
 	}
 	for {
 		dp := znet.NewDataPack()
-		data, err := dp.Pack(znet.NewMessage(0, []byte("Hello Zinx V0.5")))
+		data, err := dp.Pack(znet.NewMessage(1, []byte("Hello Zinx")))
 		if err != nil {
 			fmt.Printf("Pack error: %s\n", err)
 			break

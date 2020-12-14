@@ -12,7 +12,7 @@ type Server struct {
 	IPVersion string
 	IP        string
 	Port      int
-	Router    zicafe.IRouter
+	MsgHandler    zicafe.IMsgHandler
 }
 
 func (s *Server) Start() {
@@ -43,7 +43,7 @@ func (s *Server) Start() {
 				fmt.Printf("Accept err %s\n", err)
 				continue
 			}
-			dealConn := NewConnection(conn, cid, s.Router)
+			dealConn := NewConnection(conn, cid, s.MsgHandler)
 			cid++
 			go dealConn.Start()
 		}
@@ -60,16 +60,16 @@ func (s *Server) Serve() {
 	select {}
 }
 
-func (s *Server) AddRouter(router zicafe.IRouter) {
-	s.Router = router
+func (s *Server) AddRouter(msgID uint32, router zicafe.IRouter) {
+	s.MsgHandler.AddRouter(msgID, router)
 }
 
-func NewServer(name string) zicafe.IServer {
+func NewServer() zicafe.IServer {
 	return &Server{
 		Name:      utils.GlobalObject.Name,
 		IPVersion: "tcp4",
 		IP:        utils.GlobalObject.Host,
 		Port:      utils.GlobalObject.TcpPort,
-		Router:    nil,
+		MsgHandler:    NewMsgHandle(),
 	}
 }
