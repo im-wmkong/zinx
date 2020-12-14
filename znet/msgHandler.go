@@ -16,7 +16,7 @@ func NewMsgHandle() *MsgHandle {
 	}
 }
 
-func (mh *MsgHandle) DoMsgHandler(request zicafe.IRequest)  {
+func (mh *MsgHandle) DoMsgHandler(request zicafe.IRequest) {
 	handler, ok := mh.Apis[request.GetMsgId()]
 	if !ok {
 		fmt.Printf("msg handle is not found, id: %d\n", request.GetMsgId())

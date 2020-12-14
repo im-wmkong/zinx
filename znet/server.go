@@ -8,11 +8,11 @@ import (
 )
 
 type Server struct {
-	Name      string
-	IPVersion string
-	IP        string
-	Port      int
-	MsgHandler    zicafe.IMsgHandler
+	Name       string
+	IPVersion  string
+	IP         string
+	Port       int
+	MsgHandler zicafe.IMsgHandler
 }
 
 func (s *Server) Start() {
@@ -66,10 +66,10 @@ func (s *Server) AddRouter(msgID uint32, router zicafe.IRouter) {
 
 func NewServer() zicafe.IServer {
 	return &Server{
-		Name:      utils.GlobalObject.Name,
-		IPVersion: "tcp4",
-		IP:        utils.GlobalObject.Host,
-		Port:      utils.GlobalObject.TcpPort,
-		MsgHandler:    NewMsgHandle(),
+		Name:       utils.GlobalObject.Name,
+		IPVersion:  "tcp4",
+		IP:         utils.GlobalObject.Host,
+		Port:       utils.GlobalObject.TcpPort,
+		MsgHandler: NewMsgHandle(),
 	}
 }

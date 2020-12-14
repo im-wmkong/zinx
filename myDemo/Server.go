@@ -22,7 +22,7 @@ type HelloRouter struct {
 	znet.BaseRouter
 }
 
-func (hr *HelloRouter) Handle(request zicafe.IRequest)  {
+func (hr *HelloRouter) Handle(request zicafe.IRequest) {
 	fmt.Printf("Recv from client msg, msgId: %d, data: %s\n", request.GetMsgId(), string(request.GetData()))
 
 	if err := request.GetConnection().SendMsg(1, []byte("Hello Zinx\n")); err != nil {

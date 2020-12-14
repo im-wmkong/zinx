@@ -9,20 +9,20 @@ import (
 )
 
 type Connection struct {
-	Conn     *net.TCPConn
-	ConnID   uint32
-	isClosed bool
-	ExitChan chan bool
+	Conn       *net.TCPConn
+	ConnID     uint32
+	isClosed   bool
+	ExitChan   chan bool
 	MsgHandler zicafe.IMsgHandler
 }
 
 func NewConnection(conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandler) *Connection {
 	return &Connection{
-		Conn:     conn,
-		ConnID:   connID,
-		isClosed: false,
+		Conn:       conn,
+		ConnID:     connID,
+		isClosed:   false,
 		MsgHandler: msgHandler,
-		ExitChan: make(chan bool, 1),
+		ExitChan:   make(chan bool, 1),
 	}
 }
 
