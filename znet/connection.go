@@ -13,7 +13,7 @@ type Connection struct {
 	ConnID     uint32
 	isClosed   bool
 	ExitChan   chan bool
-	MsgChan chan []byte
+	MsgChan    chan []byte
 	MsgHandler zicafe.IMsgHandler
 }
 
@@ -24,7 +24,7 @@ func NewConnection(conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandl
 		isClosed:   false,
 		MsgHandler: msgHandler,
 		ExitChan:   make(chan bool, 1),
-		MsgChan: make(chan []byte),
+		MsgChan:    make(chan []byte),
 	}
 }
 
@@ -65,7 +65,7 @@ func (c *Connection) StartReader() {
 	}
 }
 
-func (c *Connection) StartWriter()  {
+func (c *Connection) StartWriter() {
 	fmt.Println("Connection Writer Goroutine is running")
 	defer fmt.Printf("Connection Writer is exit, ConnID: %d, RemoteAddr: %s\n", c.ConnID, c.Conn.RemoteAddr().String())
 
