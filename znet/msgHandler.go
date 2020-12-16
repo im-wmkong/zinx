@@ -8,15 +8,15 @@ import (
 )
 
 type MsgHandle struct {
-	Apis map[uint32]zicafe.IRouter
-	TaskQueue []chan zicafe.IRequest
+	Apis           map[uint32]zicafe.IRouter
+	TaskQueue      []chan zicafe.IRequest
 	WorkerPoolSize uint32
 }
 
 func NewMsgHandle() *MsgHandle {
 	return &MsgHandle{
-		Apis: make(map[uint32]zicafe.IRouter),
-		TaskQueue: make([]chan zicafe.IRequest, utils.GlobalObject.MaxWorkerPoolSize),
+		Apis:           make(map[uint32]zicafe.IRouter),
+		TaskQueue:      make([]chan zicafe.IRequest, utils.GlobalObject.MaxWorkerPoolSize),
 		WorkerPoolSize: utils.GlobalObject.WorkerPoolSize,
 	}
 }
