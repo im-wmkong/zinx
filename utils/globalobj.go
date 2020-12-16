@@ -14,6 +14,8 @@ type GlobalObj struct {
 	Version        string
 	MaxConn        int
 	MaxPackageSize uint32
+	WorkerPoolSize uint32
+	MaxWorkerPoolSize uint32
 }
 
 var GlobalObject *GlobalObj
@@ -26,6 +28,8 @@ func init() {
 		Version:        "V0.4",
 		MaxConn:        1000,
 		MaxPackageSize: 4096,
+		WorkerPoolSize: 10,
+		MaxWorkerPoolSize: 1024,
 	}
 
 	GlobalObject.Reload()
