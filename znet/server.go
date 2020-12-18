@@ -13,6 +13,7 @@ type Server struct {
 	IP         string
 	Port       int
 	MsgHandler zicafe.IMsgHandler
+	ConnMgr zicafe.IConnManager
 }
 
 func (s *Server) Start() {
@@ -44,7 +45,13 @@ func (s *Server) Start() {
 				fmt.Printf("Accept err %s\n", err)
 				continue
 			}
-			dealConn := NewConnection(conn, cid, s.MsgHandler)
+
+			if s.ConnMgr.Len() >= utils.GlobalObject.MaxConn {
+				conn.Close()
+				continue
+			}
+
+			dealConn := NewConnection(s, conn, cid, s.MsgHandler)
 			cid++
 			go dealConn.Start()
 		}
@@ -52,7 +59,7 @@ func (s *Server) Start() {
 }
 
 func (s *Server) Stop() {
-
+	s.ConnMgr.Clear()
 }
 
 func (s *Server) Serve() {
@@ -65,6 +72,10 @@ func (s *Server) AddRouter(msgID uint32, router zicafe.IRouter) {
 	s.MsgHandler.AddRouter(msgID, router)
 }
 
+func (s *Server) GetConnManager() zicafe.IConnManager {
+	return s.ConnMgr
+}
+
 func NewServer() zicafe.IServer {
 	return &Server{
 		Name:       utils.GlobalObject.Name,
@@ -72,5 +83,6 @@ func NewServer() zicafe.IServer {
 		IP:         utils.GlobalObject.Host,
 		Port:       utils.GlobalObject.TcpPort,
 		MsgHandler: NewMsgHandle(),
+		ConnMgr: NewConnManager(),
 	}
 }

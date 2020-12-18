@@ -10,6 +10,7 @@ import (
 )
 
 type Connection struct {
+	TcpServer zicafe.IServer
 	Conn       *net.TCPConn
 	ConnID     uint32
 	isClosed   bool
@@ -18,8 +19,9 @@ type Connection struct {
 	MsgHandler zicafe.IMsgHandler
 }
 
-func NewConnection(conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandler) *Connection {
-	return &Connection{
+func NewConnection(server zicafe.IServer, conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandler) *Connection {
+	c := &Connection{
+		TcpServer: server,
 		Conn:       conn,
 		ConnID:     connID,
 		isClosed:   false,
@@ -27,6 +29,10 @@ func NewConnection(conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandl
 		ExitChan:   make(chan bool, 1),
 		MsgChan:    make(chan []byte),
 	}
+
+	c.TcpServer.GetConnManager().Add(c)
+
+	return c
 }
 
 func (c *Connection) StartReader() {
@@ -103,6 +109,8 @@ func (c *Connection) Stop() {
 	c.Conn.Close()
 
 	c.ExitChan <- true
+
+	c.TcpServer.GetConnManager().Remove(c)
 
 	close(c.ExitChan)
 	close(c.MsgChan)
