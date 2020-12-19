@@ -8,7 +8,7 @@ import (
 
 type ConnManager struct {
 	connections map[uint32]zicafe.IConnection
-	connLock sync.RWMutex
+	connLock    sync.RWMutex
 }
 
 func NewConnManager() *ConnManager {
@@ -35,7 +35,7 @@ func (cm *ConnManager) Get(connID uint32) (zicafe.IConnection, error) {
 	cm.connLock.RLock()
 	defer cm.connLock.RUnlock()
 
-	if 	conn, ok := cm.connections[connID]; ok {
+	if conn, ok := cm.connections[connID]; ok {
 		return conn, nil
 	}
 	return nil, errors.New("connection not fount")
@@ -49,11 +49,8 @@ func (cm *ConnManager) Clear() {
 	cm.connLock.Lock()
 	defer cm.connLock.Unlock()
 
-	for id, conn := range cm.connections{
+	for id, conn := range cm.connections {
 		conn.Stop()
 		delete(cm.connections, id)
 	}
 }
-
-
-

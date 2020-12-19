@@ -13,7 +13,7 @@ type Server struct {
 	IP         string
 	Port       int
 	MsgHandler zicafe.IMsgHandler
-	ConnMgr zicafe.IConnManager
+	ConnMgr    zicafe.IConnManager
 }
 
 func (s *Server) Start() {
@@ -83,6 +83,6 @@ func NewServer() zicafe.IServer {
 		IP:         utils.GlobalObject.Host,
 		Port:       utils.GlobalObject.TcpPort,
 		MsgHandler: NewMsgHandle(),
-		ConnMgr: NewConnManager(),
+		ConnMgr:    NewConnManager(),
 	}
 }

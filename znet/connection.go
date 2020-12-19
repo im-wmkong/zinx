@@ -10,7 +10,7 @@ import (
 )
 
 type Connection struct {
-	TcpServer zicafe.IServer
+	TcpServer  zicafe.IServer
 	Conn       *net.TCPConn
 	ConnID     uint32
 	isClosed   bool
@@ -21,7 +21,7 @@ type Connection struct {
 
 func NewConnection(server zicafe.IServer, conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandler) *Connection {
 	c := &Connection{
-		TcpServer: server,
+		TcpServer:  server,
 		Conn:       conn,
 		ConnID:     connID,
 		isClosed:   false,
