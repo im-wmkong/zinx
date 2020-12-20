@@ -14,6 +14,8 @@ type Server struct {
 	Port       int
 	MsgHandler zicafe.IMsgHandler
 	ConnMgr    zicafe.IConnManager
+	OnConnStart func(conn zicafe.IConnection)
+	OnConnStop func(conn zicafe.IConnection)
 }
 
 func (s *Server) Start() {
@@ -74,6 +76,26 @@ func (s *Server) AddRouter(msgID uint32, router zicafe.IRouter) {
 
 func (s *Server) GetConnManager() zicafe.IConnManager {
 	return s.ConnMgr
+}
+
+func (s *Server) SetOnConnStart(f func(connection zicafe.IConnection)) {
+	s.OnConnStart = f
+}
+
+func (s *Server) SetOnConnStop(f func(connection zicafe.IConnection)) {
+	s.OnConnStop = f
+}
+
+func (s *Server) CallOnConnStart(connection zicafe.IConnection) {
+	if s.OnConnStart != nil {
+		s.OnConnStart(connection)
+	}
+}
+
+func (s *Server) CallOnConnStop(connection zicafe.IConnection) {
+	if s.OnConnStop != nil {
+		s.OnConnStop(connection)
+	}
 }
 
 func NewServer() zicafe.IServer {

@@ -6,6 +6,14 @@ import (
 	"zinx/znet"
 )
 
+func ConnectionStart(conn zicafe.IConnection)  {
+	fmt.Println("Connection start")
+}
+
+func ConnectionStop(conn zicafe.IConnection)  {
+	fmt.Println("Connection stop")
+}
+
 type PingRouter struct {
 	znet.BaseRouter
 }
@@ -32,6 +40,10 @@ func (hr *HelloRouter) Handle(request zicafe.IRequest) {
 
 func main() {
 	s := znet.NewServer()
+
+	s.SetOnConnStart(ConnectionStart)
+	s.SetOnConnStop(ConnectionStop)
+
 	s.AddRouter(0, &PingRouter{})
 	s.AddRouter(1, &HelloRouter{})
 	s.Serve()
