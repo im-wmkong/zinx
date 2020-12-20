@@ -6,11 +6,11 @@ import (
 	"zinx/znet"
 )
 
-func ConnectionStart(conn zicafe.IConnection)  {
+func ConnectionStart(conn zicafe.IConnection) {
 	fmt.Println("Connection start")
 }
 
-func ConnectionStop(conn zicafe.IConnection)  {
+func ConnectionStop(conn zicafe.IConnection) {
 	fmt.Println("Connection stop")
 }
 

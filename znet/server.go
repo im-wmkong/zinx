@@ -8,14 +8,14 @@ import (
 )
 
 type Server struct {
-	Name       string
-	IPVersion  string
-	IP         string
-	Port       int
-	MsgHandler zicafe.IMsgHandler
-	ConnMgr    zicafe.IConnManager
+	Name        string
+	IPVersion   string
+	IP          string
+	Port        int
+	MsgHandler  zicafe.IMsgHandler
+	ConnMgr     zicafe.IConnManager
 	OnConnStart func(conn zicafe.IConnection)
-	OnConnStop func(conn zicafe.IConnection)
+	OnConnStop  func(conn zicafe.IConnection)
 }
 
 func (s *Server) Start() {
