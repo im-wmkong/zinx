@@ -5,18 +5,21 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"sync"
 	"zinx/utils"
 	"zinx/zicafe"
 )
 
 type Connection struct {
-	TcpServer  zicafe.IServer
-	Conn       *net.TCPConn
-	ConnID     uint32
-	isClosed   bool
-	ExitChan   chan bool
-	MsgChan    chan []byte
-	MsgHandler zicafe.IMsgHandler
+	TcpServer    zicafe.IServer
+	Conn         *net.TCPConn
+	ConnID       uint32
+	isClosed     bool
+	ExitChan     chan bool
+	MsgChan      chan []byte
+	MsgHandler   zicafe.IMsgHandler
+	property     map[string]interface{}
+	propertyLock sync.RWMutex
 }
 
 func NewConnection(server zicafe.IServer, conn *net.TCPConn, connID uint32, msgHandler zicafe.IMsgHandler) *Connection {
@@ -28,6 +31,7 @@ func NewConnection(server zicafe.IServer, conn *net.TCPConn, connID uint32, msgH
 		MsgHandler: msgHandler,
 		ExitChan:   make(chan bool, 1),
 		MsgChan:    make(chan []byte),
+		property:   make(map[string]interface{}),
 	}
 
 	c.TcpServer.GetConnManager().Add(c)
@@ -143,4 +147,29 @@ func (c *Connection) SendMsg(msgId uint32, data []byte) error {
 	c.MsgChan <- binaryMsg
 
 	return nil
+}
+
+func (c *Connection) SetProperty(key string, property interface{}) {
+	c.propertyLock.Lock()
+	defer c.propertyLock.Unlock()
+
+	c.property[key] = property
+}
+
+func (c *Connection) GetProperty(key string) (interface{}, error) {
+	c.propertyLock.RLock()
+	defer c.propertyLock.RUnlock()
+
+	if property, ok := c.property[key]; ok {
+		return property, nil
+	}
+
+	return nil, errors.New("property not exists")
+}
+
+func (c *Connection) RemoveProperty(key string) {
+	c.propertyLock.Lock()
+	defer c.propertyLock.Unlock()
+
+	delete(c.property, key)
 }

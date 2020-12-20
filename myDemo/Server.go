@@ -8,10 +8,16 @@ import (
 
 func ConnectionStart(conn zicafe.IConnection) {
 	fmt.Println("Connection start")
+	conn.SetProperty("foo", "bar")
 }
 
 func ConnectionStop(conn zicafe.IConnection) {
 	fmt.Println("Connection stop")
+	property, err := conn.GetProperty("foo")
+	if err != nil {
+		fmt.Println("property foo: ", property)
+		conn.RemoveProperty("foo")
+	}
 }
 
 type PingRouter struct {
